@@ -23,38 +23,64 @@ Scramjet has CAPTCHA support! Some of the popular websites that Scramjet support
 
 Ensure you are not hosting on a datacenter IP for CAPTCHAs to work reliably along with YouTube. Heavy amounts of traffic will make some sites NOT work on a single IP. Consider rotating IPs or routing through Wireguard using a project like <a href="https://github.com/whyvl/wireproxy">wireproxy</a>.
 
-## Setup / Usage
+# Update system
 
 You will need Node.js 16.x (and above) and Git installed; below is an example for Debian/Ubuntu setup.
 
 ```
 sudo apt update
-sudo apt upgrade
-sudo apt install curl git nginx
+sudo apt upgrade -y
+```
 
+Install required packages
+
+```
+sudo apt install -y curl git nginx
+```
+
+Clone this Scramjet-App repo
+
+```
+git clone https://github.com/hahahah67-pixel/Scramjet-App.git
+cd Scramjet-App
+```
+# Install NVM (Node Version Manager)
+
+```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
+```
+# Load NVM into current shell
+
+```
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+```
+# Install and use Node.js
+
+```
 nvm install 20
 nvm use 20
 
-git clone https://github.com/MercuryWorkshop/Scramjet-App
-cd Scramjet-App
 ```
+# Install pnpm if not installed
 
-Install dependencies
+```
+npm install -g pnpm
+
+```
+# Install project dependencies
 
 ```
 pnpm install
-```
 
-Run the server
+```
+# Start the server
 
 ```
 pnpm start
-```
+
 
 Resources for self-hosting:
 
