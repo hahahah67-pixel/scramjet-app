@@ -82,6 +82,7 @@ pnpm install
 pnpm start
 
 
+```
 Resources for self-hosting:
 
 - https://github.com/nvm-sh/nvm
