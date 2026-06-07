@@ -17,20 +17,17 @@ nvm alias default 22
 cd "$(dirname "$0")"
 
 # Ensure pnpm exists
-if ! command -v pnpm >/dev/null 2>&1; then
-  echo "Installing pnpm..."
-  npm install -g pnpm
-fi
+command -v pnpm >/dev/null 2>&1 || npm install -g pnpm
 
-# Install dependencies once
 pnpm install
 
-echo "Scramjet is running 🚀"
+# ---- START IN BACKGROUND (KEY FIX) ----
+nohup pnpm start > /tmp/scramjet.log 2>&1 &
 
-# --- AUTO-HEAL LOOP (this is the key upgrade) ---
-while true; do
-  pnpm start
+SCRAMJET_PID=$!
 
-  echo "Scramjet stopped. Restarting in 2 seconds..."
-  sleep 2
-done
+echo "Scramjet is running 🚀 (PID: $SCRAMJET_PID)"
+echo "Logs: tail -f /tmp/scramjet.log"
+
+# Immediately return control to terminal
+exit 0
