@@ -21,13 +21,7 @@ command -v pnpm >/dev/null 2>&1 || npm install -g pnpm
 
 pnpm install
 
-# ---- START IN BACKGROUND (KEY FIX) ----
-nohup pnpm start > /tmp/scramjet.log 2>&1 &
+echo "Scramjet is running 🚀"
 
-SCRAMJET_PID=$!
-
-echo "Scramjet is running 🚀 (PID: $SCRAMJET_PID)"
-echo "Logs: tail -f /tmp/scramjet.log"
-
-# Immediately return control to terminal
-exit 0
+# ---- FOREGROUND (IMPORTANT FIX) ----
+exec pnpm start
