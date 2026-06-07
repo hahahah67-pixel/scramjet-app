@@ -5,38 +5,32 @@ echo "Booting Scramjet..."
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-# ---- FORCE Node 22 ----
+# Force Node 22
 if ! nvm ls 22 >/dev/null 2>&1; then
   echo "Installing Node 22..."
   nvm install 22
 fi
 
-nvm use 22
+nvm use 22 >/dev/null 2>&1
 nvm alias default 22
 
-# ---- ensure pnpm is compatible ----
+cd "$(dirname "$0")"
+
+# Ensure pnpm exists
 if ! command -v pnpm >/dev/null 2>&1; then
   echo "Installing pnpm..."
   npm install -g pnpm
 fi
 
-NODE_VERSION=$(node -v)
-echo "Using Node: $NODE_VERSION"
+# Install dependencies once
+pnpm install
 
-# ---- go to project root ----
-cd "$(dirname "$0")"
-
-# ---- install dependencies if needed ----
-if [ ! -d node_modules ]; then
-  pnpm install
-fi
-
-# ---- prevent duplicate server ----
-if pgrep -f "pnpm start" >/dev/null; then
-  echo "Scramjet already running"
-  exit 0
-fi
-
-# ---- start app ----
 echo "Scramjet is running 🚀"
-exec pnpm start
+
+# --- AUTO-HEAL LOOP (this is the key upgrade) ---
+while true; do
+  pnpm start
+
+  echo "Scramjet stopped. Restarting in 2 seconds..."
+  sleep 2
+done
